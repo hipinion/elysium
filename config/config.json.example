@@ -1,0 +1,9 @@
+{
+  "database": {
+    "type": "mysql,postgres",
+    "host": "host",
+    "port": "8000",
+    "user": "root",
+    "pass": "password here"]
+  }
+}
