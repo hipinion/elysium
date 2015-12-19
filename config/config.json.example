@@ -5,5 +5,14 @@
     "port": "8000",
     "user": "root",
     "pass": "password here"]
+  },
+  "dev": {
+
+  },
+  "stage": {
+
+  },
+  "production": {
+
   }
 }
