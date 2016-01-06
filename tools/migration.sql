@@ -15,6 +15,17 @@ CREATE TABLE `publications` (
   KEY `publication_guid` (`publication_guid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) NOT NULL DEFAULT '',
+  `user_id` int(12) DEFAULT NULL,
+  `session_created` timestamp NULL DEFAULT NULL,
+  `session_updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `session_ip` varchar(128) DEFAULT NULL,
+  `session_user_agent` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`session_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `users` (
   `user_id` int(12) unsigned NOT NULL AUTO_INCREMENT,
   `user_name` varchar(32) NOT NULL DEFAULT '',
@@ -25,3 +36,4 @@ CREATE TABLE `users` (
   `user_reg_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
