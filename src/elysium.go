@@ -12,6 +12,9 @@ type Config struct {
 	Name     string         `json:"name"`
 	File     string         `json:"filename"`
 	Database ConfigDatabase `json:"database"`
+	Dev      ConfigDev      `json:"dev"`
+	Stage    ConfigStage    `json:"stage"`
+	Prod     ConfigProd     `json:"production"`
 }
 
 type ConfigDatabase struct {
@@ -21,6 +24,22 @@ type ConfigDatabase struct {
 	User     string `json:"user"`
 	Pass     string `json:"pass"`
 	Database string `json:"database"`
+}
+
+type ConfigDev struct {
+	ConfigEnvironment string `json:"env"`
+}
+
+type ConfigStage struct {
+	ConfigEnvironment string `json:"env"`
+}
+
+type ConfigProd struct {
+	ConfigEnvironment string `json:"env"`
+}
+
+type ConfigEnvironment struct {
+	Port string `json:"port"`
 }
 
 var (
@@ -49,12 +68,11 @@ func loadConfiguration(filename string) {
 
 func getConnectString() string {
 	cs := Configuration.Database.User + ":" + Configuration.Database.Pass + "@" + Configuration.Database.Host + "/" + Configuration.Database.Database
-	log.Println(cs)
 	return cs
 }
 
 func connectDB() {
-	log.Println("Connecting to", Configuration.Database.Host)
+	log.Println("Connecting to", getConnectString())
 	db, err := sql.Open(Configuration.Database.Type, getConnectString())
 	if err != nil {
 		log.Fatal("EAAAAAHHHH")
