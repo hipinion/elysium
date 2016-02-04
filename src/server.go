@@ -13,11 +13,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 func ForumHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "gapearth")
 }
-func TopicHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+func ThreadHandler(w http.ResponseWriter, r *http.Request) {
+	p := GetPost("emoji")
+	Templates.ExecuteTemplate(w, "thread.html", p)
 }
 func PostHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+
 }
 func UserHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "gapearth")
@@ -34,7 +35,7 @@ func Serve() {
 	r.HandleFunc("/login", LoginHandler)
 	r.HandleFunc("/register", RegisterHandler)
 	r.HandleFunc("/forum/{forum:[0-9a-z-]+}", ForumHandler)
-	r.HandleFunc("/topic/{topic:[0-9a-z-]+}", TopicHandler)
+	r.HandleFunc("/topic/{topic:[0-9a-z-]+}", ThreadHandler)
 	r.HandleFunc("/post/{post:[0-9a-z-]+}", PostHandler)
 	r.HandleFunc("/user/{user:[0-9a-z-]+}", UserHandler)
 	http.Handle("/", r)
