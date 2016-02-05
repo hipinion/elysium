@@ -14,8 +14,9 @@ func ForumHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "gapearth")
 }
 func ThreadHandler(w http.ResponseWriter, r *http.Request) {
-	p := GetPost("emoji")
-	Templates.ExecuteTemplate(w, "thread.html", p)
+	v := mux.Vars(r)
+	t := GetTopic(v["topic"])
+	Templates.ExecuteTemplate(w, "thread.html", t)
 }
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 
