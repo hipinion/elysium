@@ -1,18 +1,25 @@
 {
   "database": {
-    "type": "mysql,postgres",
-    "host": "host",
-    "port": "8000",
+    "type": "mysql",
+    "host": "",
+    "port": "3306",
     "user": "root",
-    "pass": "password here"]
+    "pass": "",
+    "database":"elysium"
   },
   "dev": {
-
+    "env": {
+      "port":"8083"
+    }
   },
   "stage": {
-
+    "env": {
+      "port":"8080"
+    }
   },
   "production": {
-
+    "env": {
+      "port":"8080"
+    }
   }
 }
