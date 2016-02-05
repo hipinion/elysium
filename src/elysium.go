@@ -8,6 +8,13 @@ import (
 	"log"
 )
 
+type Organization struct {
+}
+
+type Page struct {
+	Content interface{}
+}
+
 type Config struct {
 	Name     string         `json:"name"`
 	File     string         `json:"filename"`
