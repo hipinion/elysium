@@ -6,8 +6,11 @@ import (
 
 type Topic struct {
 	ID    int    `json:"topic_id"`
-	Guid  string `json:"topic_guid"`
 	Title string `json:"topic_title"`
+	Guid  string `json:"topic_guid"`
+
+	User  int    `json:"user_id"`
+	Time  int    `json:"topic_create_time"`
 	Posts []Post `json:"posts"`
 }
 
