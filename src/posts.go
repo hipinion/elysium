@@ -5,8 +5,12 @@ import (
 )
 
 type Post struct {
-	Guid string `json:"post_guid"`
-	Text string `json:"post_text"`
+	ID    int    `json:"post_id"`
+	User  int    `json:"user_id"`
+	Topic int    `json:"topic_id"`
+	Guid  string `json:"post_guid"`
+	Text  string `json:"post_text"`
+	Time  int    `json:"post_create_time"`
 }
 
 type Posts []Post

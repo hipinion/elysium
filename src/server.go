@@ -16,7 +16,7 @@ func ForumHandler(w http.ResponseWriter, r *http.Request) {
 func ThreadHandler(w http.ResponseWriter, r *http.Request) {
 	v := mux.Vars(r)
 	t := GetTopic(v["topic"])
-	Templates.ExecuteTemplate(w, "thread.html", t)
+	Templates.ExecuteTemplate(w, "topic.html", t)
 }
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 

@@ -1,0 +1,12 @@
+{{template "header.html" .}}
+
+
+<h1>{{.Title}}</h1>
+<h4>{{.Guid}}</h4>
+
+{{ range .Posts }}
+<div>{{.Text}}</div>
+{{ end}}
+
+
+{{template "footer.html" .}}
