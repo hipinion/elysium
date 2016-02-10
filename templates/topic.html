@@ -5,7 +5,14 @@
 <h4>{{.Guid}}</h4>
 
 {{ range .Posts }}
-<div>{{.Text}}</div>
+  <div class="mdl-grid post">
+    <div class="mdl-cell mdl-cell--2-col">
+      meta
+    </div>
+    <div class="mdl-cell mdl-cell--10-col">
+      {{.FText }}
+    </div>
+  </div>
 {{ end}}
 
 
