@@ -1,6 +1,7 @@
 package elysium
 
 import (
+	"html/template"
 	"log"
 )
 
@@ -16,13 +17,16 @@ type Topic struct {
 
 func (t Topic) GetPosts() []Post {
 
-	rows, err := DB.Query("SELECT post_id, post_text, user_id FROM posts WHERE topic_id=?", t.ID)
+	rows, err := DB.Query("SELECT post_id, post_text, user_id FROM posts WHERE topic_id=? ORDER BY post_create_time DESC", t.ID)
 	if err != nil {
 		log.Println(err)
 	}
 	for rows.Next() {
 		p := Post{}
 		rows.Scan(&p.ID, &p.Text, &p.User)
+		p.Text = nl2br(p.Text)
+		p.Text = parseText(p.Text)
+		p.FText = template.HTML(p.Text)
 		t.Posts = append(t.Posts, p)
 	}
 	return t.Posts

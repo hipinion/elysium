@@ -8,7 +8,7 @@ import (
 	"log"
 )
 
-type Organization struct {
+type xOrganization struct {
 }
 
 type Page struct {
