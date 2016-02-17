@@ -1,19 +1,32 @@
 {{template "header.html" .}}
 
-
-<h1>{{.Title}}</h1>
-<h4>{{.Guid}}</h4>
-
-{{ range .Posts }}
-  <div class="mdl-grid post">
-    <div class="mdl-cell mdl-cell--2-col">
-      meta
-    </div>
-    <div class="mdl-cell mdl-cell--10-col">
-      {{.FText }}
+<div class="mdl-grid mdl-grid--no-spacing">
+  <div class="mdl-cell--2-col" style="position:relative; background-color: #eee;">
+    <div style="position: fixed;">
+      <h3>More Topics</h3>
+      
     </div>
   </div>
-{{ end}}
+
+  <div class="mdl-cell--10-col">
+    <h1>{{.Title}}</h1>
+    <h4>{{.Guid}}</h4>
+    {{ range .Posts }}
+      <div class="mdl-grid post">
+        <div class="mdl-cell mdl-cell--2-col">
+          meta
+        </div>
+        <div class="mdl-cell mdl-cell--10-col">
+          {{.FText }}
+        </div>
+      </div>
+    {{ end}}
+  </div>
+</div>
+
+
+
+
 
 
 {{template "footer.html" .}}
