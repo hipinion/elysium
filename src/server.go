@@ -12,7 +12,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "gapearth")
 }
 func ForumHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+	v := mux.Vars(r)
+	t := GetForum(v["forum"])
+	Templates.ExecuteTemplate(w, "forum.html", t)
 }
 func ThreadHandler(w http.ResponseWriter, r *http.Request) {
 	v := mux.Vars(r)
