@@ -26,9 +26,9 @@ func (f Forum) GetTopics() []Topic {
 	return f.Topics
 }
 
-func GetForum(id string) Forum {
+func GetForum(guid string) Forum {
 	f := Forum{}
-	err := DB.QueryRow("SELECT forum_id, forum_name FROM forums WHERE forum_id=?", id).Scan(&f.ID, &f.Name)
+	err := DB.QueryRow("SELECT forum_id, forum_name FROM forums WHERE forum_guid=?", guid).Scan(&f.ID, &f.Name)
 	if err != nil {
 		fmt.Println(err)
 	}
