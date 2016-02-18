@@ -2,16 +2,11 @@
 		<h1>{{.Name}}</h1>
 <div class="mdl-grid mdl-grid--no-spacing">
 
-
     {{ range .Topics }}
       <div class="mdl-cell mdl-cell--12-col"><a href="/topic/{{.Guid}}">{{.Title}}</a></div>
     {{ end}}
 
 </div>
-
-
-
-
 
 
 {{template "footer.html" .}}
