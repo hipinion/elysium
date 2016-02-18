@@ -1,8 +1,9 @@
 package elysium
 
 import (
+	"github.com/frustra/bbcode"
 	"log"
-	"regexp"
+	_ "regexp"
 	"strings"
 )
 
@@ -11,8 +12,9 @@ func nl2br(t string) string {
 	return t
 }
 func parseText(text string) string {
-	qr := regexp.MustCompile("\\[quote\\=\"(.*?)\"\\:(.*?)\\](.*?)\\[\\/quote\\:.*\\]")
-	log.Println(qr)
-	text = qr.ReplaceAllString(text, "<div class=\"quote\">$3</div>")
+	log.Println("")
+	compiler := bbcode.NewCompiler(true, true)
+	//text = qr.ReplaceAllString(text, "<div class=\"quote\">$3</div>")
+	text = compiler.Compile(text)
 	return text
 }
