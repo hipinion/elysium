@@ -2,7 +2,6 @@ package main
 
 import (
 	Elysium "github.com/hipinion/elysium/src"
-
 	"log"
 )
 
@@ -17,6 +16,5 @@ func init() {
 
 func main() {
 	Elysium.Init(CONFIG)
-
 	Elysium.Serve()
 }

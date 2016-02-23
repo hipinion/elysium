@@ -1,0 +1,5 @@
+package elysium
+
+func Paginate() {
+
+}

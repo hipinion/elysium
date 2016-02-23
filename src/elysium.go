@@ -8,6 +8,10 @@ import (
 	"log"
 )
 
+const (
+	TOPICS_PER_PAGE = 10
+)
+
 type xOrganization struct {
 }
 

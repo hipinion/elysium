@@ -1,17 +1,9 @@
 {{template "header.html" .}}
 
 <div class="mdl-grid mdl-grid--no-spacing">
-  <div class="mdl-cell--2-col" style="position:relative; background-color: #333; color:#fff;">
-    <div style="position: fixed;">
-      <ul>
-      {{ range .Topics }}
-        <li><a href="/topic/{{.Guid}}">{{.Title}}</a></li>
-      {{end}}
-      </ul>
-    </div>
-  </div>
 
-  <div class="mdl-cell--10-col">
+  <div class="mdl-cell--12-col">
+    <div><a href="/forum/{{.ForumGuid}}">{{.ForumName}}</a></div>
     <h1>{{.Title}}</h1>
     <h4>{{.Guid}}</h4>
     {{ range .Posts }}
