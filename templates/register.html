@@ -1,0 +1,12 @@
+{{template "header.html" .}}
+		<h1>register</h1>
+
+<form>
+<div class="mdl-grid">
+{{ .csrfField }}
+  <input type="text" name="user_name" placeholder="User Name" />
+  <input type="text" name="user_email" placeholder="Email" />
+  <input type="password" name="user_pass" placeholder="Password" />
+</div>
+
+{{template "footer.html" .}}

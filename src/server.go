@@ -2,8 +2,8 @@ package elysium
 
 import (
 	"fmt"
+	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
-
 	"log"
 	"net/http"
 )
@@ -31,7 +31,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "gapearth")
 }
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+	Templates.ExecuteTemplate(w, "register.html", map[string]interface{}{
+		csrf.TemplateTag: csrf.TemplateField(r),
+	})
 }
 func Serve() {
 	r := mux.NewRouter()
@@ -42,8 +44,20 @@ func Serve() {
 	r.HandleFunc("/topic/{topic:[0-9a-z-]+}", ThreadHandler)
 	r.HandleFunc("/post/{post:[0-9a-z-]+}", PostHandler)
 	r.HandleFunc("/user/{user:[0-9a-z-]+}", UserHandler)
+
+	// API endpoints
+	r.HandleFunc("/api/v1/users", API_v1_UsersHandler)
+	r.HandleFunc("/api/v1/users/{user:[0-9a-z-]+}", API_v1_UsersHandler)
+	r.HandleFunc("/api/v1/topics", API_v1_TopicsHandler)
+	r.HandleFunc("/api/v1/topics/{topic:[0-9a-z-]+}", API_v1_TopicsHandler)
+	r.HandleFunc("/api/v1/forums", API_v1_ForumsHandler)
+	r.HandleFunc("/api/v1/forums/{forum:[0-9a-z-]+}", API_v1_ForumsHandler)
+
+	r.HandleFunc("/api/v1/posts", API_v1_PostsHandler).Methods("POST")
+
 	http.Handle("/", r)
-	http.ListenAndServe(":8083", nil)
+	http.ListenAndServe(":8083", csrf.Protect([]byte("32-byte-long-auth-key"))(r))
+
 }
 
 func Ping() {
