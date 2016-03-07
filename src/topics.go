@@ -10,7 +10,8 @@ type Topic struct {
 	Title     string  `json:"topic_title"`
 	Guid      string  `json:"topic_guid"`
 	ForumID   int     `json:"forum_id"`
-	ForumGUID string  `json:"forum_guid"`
+	ForumGuid string  `json:"forum_guid"`
+	ForumName string  `json:"forum_name"`
 	User      int     `json:"user_id"`
 	Time      int     `json:"topic_create_time"`
 	Topics    []Topic `json:"topic_topics"`
@@ -36,13 +37,13 @@ func (t Topic) GetPosts() []Post {
 
 func GetTopic(guid string) Topic {
 	t := Topic{}
-	err := DB.QueryRow("SELECT topic_id, topic_guid, topic_title, t.forum_id, f.forum_guid FROM topics t LEFT JOIN forums f ON f.forum_id=t.forum_id WHERE topic_guid=?", guid).Scan(&t.ID, &t.Guid, &t.Title, &t.ForumID, &t.ForumGUID)
+	err := DB.QueryRow("SELECT topic_id, topic_guid, topic_title, t.forum_id, f.forum_guid, f.forum_name FROM topics t LEFT JOIN forums f ON f.forum_id=t.forum_id WHERE topic_guid=?", guid).Scan(&t.ID, &t.Guid, &t.Title, &t.ForumID, &t.ForumGuid, &t.ForumName)
 	if err != nil {
 		log.Println(err)
 	}
 
 	t.Posts = t.GetPosts()
-	f := GetForum(t.ForumGUID)
+	f := GetForum(t.ForumGuid)
 	t.Topics = f.Topics
 
 	return t

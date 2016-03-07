@@ -1,0 +1,35 @@
+{{template "header.html" .}}
+
+
+<div class="mdl-grid elysium-grid">
+  <div class="mdl mdl-cell--4-col"></div>
+  <div class="mdl-cell mdl-cell--4-col">
+    <h1>Register</h1>
+    <form action="/register" method="POST">
+    <div class="mdl-grid">
+    {{ .csrfField }}
+
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" pattern="*{3,}" id="user_name" name="user_name">
+        <label class="mdl-textfield__label" for="user_name">User Name</label>
+        <span class="mdl-textfield__error">Must be at least 3 characters</span>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="email" pattern="*{3,}" id="user_email" name="user_email">
+        <label class="mdl-textfield__label" for="user_email">Email</label>
+        <span class="mdl-textfield__error">Must be valid email</span>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="password" pattern="*{6,12}" id="user_pass" name="user_pass">
+        <label class="mdl-textfield__label" for="user_pass">Password</label>
+        <span class="mdl-textfield__error">Must be 6-12 characters</span>
+      </div>
+
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Register</button>
+    </div>
+    </form>
+  </div>
+  <div class="mdl mdl-cell--4-col"></div>
+</div>
+
+{{template "footer.html" .}}

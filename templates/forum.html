@@ -6,6 +6,10 @@
       <div class="mdl-cell mdl-cell--12-col"><a href="/topic/{{.Guid}}">{{.Title}}</a></div>
     {{ end}}
 
+    {{ range .Pages}}
+      {{.}}
+    {{ end }} 
+
 </div>
 
 
