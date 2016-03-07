@@ -48,7 +48,10 @@ func RegisterProcess(w http.ResponseWriter, r *http.Request) {
 	email := r.Form.Get("user_email")
 	pass := r.Form.Get("user_pass")
 	u := User{Name: userName, Email: email, Password: pass}
-	u.Create()
+	created := u.Create()
+	if !created {
+		log.Println("Could not create user")
+	}
 }
 
 func Serve() {

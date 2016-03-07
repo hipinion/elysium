@@ -39,7 +39,7 @@ func generateSalt() string {
 	return string(b)
 }
 
-func (u User) Create() {
+func (u User) Create() bool {
 
 	salt := generateSalt()
 	pass := hash(u.Password + salt)
@@ -47,5 +47,8 @@ func (u User) Create() {
 	_, err := DB.Exec("INSERT INTO users SET user_name=?, user_email=?, user_salt=?, user_password=?", u.Name, u.Email, salt, pass)
 	if err != nil {
 		log.Println(err)
+		return false
+	} else {
+		return true
 	}
 }
