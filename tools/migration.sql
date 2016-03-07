@@ -107,7 +107,9 @@ CREATE TABLE `users` (
   `user_reg_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_salt` varchar(256) DEFAULT NULL,
   `user_password` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_name` (`user_name`),
+  UNIQUE KEY `user_email` (`user_email`)
+) ENGINE=InnoDB AUTO_INCREMENT=184097 DEFAULT CHARSET=utf8mb4;
 
 
