@@ -11,35 +11,52 @@ import (
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "gapearth")
 }
+
 func ForumHandler(w http.ResponseWriter, r *http.Request) {
 	v := mux.Vars(r)
 	t := GetForum(v["forum"])
 	Templates.ExecuteTemplate(w, "forum.html", t)
 }
+
 func ThreadHandler(w http.ResponseWriter, r *http.Request) {
 	v := mux.Vars(r)
 	t := GetTopic(v["topic"])
 	Templates.ExecuteTemplate(w, "topic.html", t)
 }
+
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 }
+
 func UserHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "gapearth")
 }
+
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+	Templates.ExecuteTemplate(w, "login.html", nil)
 }
+
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	Templates.ExecuteTemplate(w, "register.html", map[string]interface{}{
 		csrf.TemplateTag: csrf.TemplateField(r),
 	})
 }
+
+func RegisterProcess(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	userName := r.Form.Get("user_name")
+	email := r.Form.Get("user_email")
+	pass := r.Form.Get("user_pass")
+	u := User{Name: userName, Email: email, Password: pass}
+	u.Create()
+}
+
 func Serve() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
-	r.HandleFunc("/login", LoginHandler)
-	r.HandleFunc("/register", RegisterHandler)
+	r.HandleFunc("/login", LoginHandler).Methods("GET")
+	r.HandleFunc("/register", RegisterHandler).Methods("GET")
+	r.HandleFunc("/register", RegisterProcess).Methods("POST")
 	r.HandleFunc("/forum/{forum:[0-9a-z-]+}", ForumHandler)
 	r.HandleFunc("/topic/{topic:[0-9a-z-]+}", ThreadHandler)
 	r.HandleFunc("/post/{post:[0-9a-z-]+}", PostHandler)
@@ -56,7 +73,7 @@ func Serve() {
 	r.HandleFunc("/api/v1/posts", API_v1_PostsHandler).Methods("POST")
 
 	http.Handle("/", r)
-	http.ListenAndServe(":8083", csrf.Protect([]byte("32-byte-long-auth-key"))(r))
+	http.ListenAndServe(":8083", csrf.Protect([]byte("32-byte-long-auth-key"), csrf.Secure(false))(r))
 
 }
 

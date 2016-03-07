@@ -1,0 +1,13 @@
+{{template "header.html" .}}
+		<h1>login</h1>
+
+<form action="/login" method="POST">
+<div class="mdl-grid">
+
+  <input type="text" name="user_name" placeholder="User Name" />
+  <input type="text" name="user_email" placeholder="Email" />
+  <input type="password" name="user_pass" placeholder="Password" />
+  <input type="submit" value="Register" />
+</div>
+</form>
+{{template "footer.html" .}}
