@@ -33,7 +33,22 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	Templates.ExecuteTemplate(w, "login.html", nil)
+	Templates.ExecuteTemplate(w, "login.html", map[string]interface{}{
+		csrf.TemplateTag: csrf.TemplateField(r),
+	})
+}
+
+func LoginProcess(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	userName := r.Form.Get("user_name")
+	pass := r.Form.Get("user_pass")
+	u := User{Name: userName, Password: pass}
+	authenticated := u.authenticate()
+	if authenticated {
+		fmt.Fprintln(w, "Correctly authenticated")
+	} else {
+		fmt.Fprintln(w, "Error logging in")
+	}
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -48,7 +63,7 @@ func RegisterProcess(w http.ResponseWriter, r *http.Request) {
 	email := r.Form.Get("user_email")
 	pass := r.Form.Get("user_pass")
 	u := User{Name: userName, Email: email, Password: pass}
-	created := u.Create()
+	created := u.create()
 	if !created {
 		log.Println("Could not create user")
 	}
@@ -58,6 +73,7 @@ func Serve() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/login", LoginHandler).Methods("GET")
+	r.HandleFunc("/login", LoginProcess).Methods("POST")
 	r.HandleFunc("/register", RegisterHandler).Methods("GET")
 	r.HandleFunc("/register", RegisterProcess).Methods("POST")
 	r.HandleFunc("/forum/{forum:[0-9a-z-]+}", ForumHandler)

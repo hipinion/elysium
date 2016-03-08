@@ -39,7 +39,32 @@ func generateSalt() string {
 	return string(b)
 }
 
-func (u User) Create() bool {
+func getSalt(un string) (bool, string) {
+	var salt string
+	err := DB.QueryRow("SELECT user_salt FROM users WHERE user_name=?", un).Scan(&salt)
+	if err != nil {
+		return false, ""
+	} else {
+		return true, salt
+	}
+}
+
+func (u User) authenticate() bool {
+	_, salt := getSalt(u.Name)
+	pass := hash(u.Password + salt)
+	var count int
+	err := DB.QueryRow("SELECT count(*) FROM users WHERE user_name=? AND user_password=? AND user_salt=?", u.Name, pass, salt).Scan(&count)
+	if err != nil {
+		log.Println(err)
+	}
+	if count == 1 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (u User) create() bool {
 
 	salt := generateSalt()
 	pass := hash(u.Password + salt)
