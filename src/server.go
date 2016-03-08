@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +15,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 func ForumHandler(w http.ResponseWriter, r *http.Request) {
 	v := mux.Vars(r)
-	t := GetForum(v["forum"])
+	page, _ := strconv.ParseInt(r.URL.Query().Get("page"), 10, 32)
+	if page == 0 {
+		page = 1
+	}
+	t := GetForum(v["forum"], page)
+
 	Templates.ExecuteTemplate(w, "forum.html", t)
 }
 

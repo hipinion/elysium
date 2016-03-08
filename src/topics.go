@@ -43,7 +43,7 @@ func GetTopic(guid string) Topic {
 	}
 
 	t.Posts = t.GetPosts()
-	f := GetForum(t.ForumGuid)
+	f := GetForum(t.ForumGuid, 1)
 	t.Topics = f.Topics
 
 	return t
