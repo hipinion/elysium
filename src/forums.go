@@ -16,9 +16,10 @@ type Forum struct {
 	Pages        []int
 }
 
-func (f Forum) GetTopics() ([]Topic, int) {
+func (f Forum) GetTopics(page int64) ([]Topic, int) {
 	resultCount := 0
-	rows, err := DB.Query("SELECT SQL_CALC_FOUND_ROWS t.topic_id, t.topic_guid, t.topic_title FROM topics t WHERE t.forum_id=? LIMIT ?", f.ID, TOPICS_PER_PAGE)
+	offset := TOPICS_PER_PAGE * (page - 1)
+	rows, err := DB.Query("SELECT SQL_CALC_FOUND_ROWS t.topic_id, t.topic_guid, t.topic_title FROM topics t WHERE t.forum_id=? LIMIT ? OFFSET ?", f.ID, TOPICS_PER_PAGE, offset)
 	err = DB.QueryRow("SELECT count(*) as count FROM topics t WHERE t.forum_id=?", f.ID).Scan(&resultCount)
 	if err != nil {
 		fmt.Println(err)
@@ -32,13 +33,13 @@ func (f Forum) GetTopics() ([]Topic, int) {
 	return f.Topics, (resultCount / TOPICS_PER_PAGE)
 }
 
-func GetForum(guid string) Forum {
+func GetForum(guid string, page int64) Forum {
 	f := Forum{}
 	err := DB.QueryRow("SELECT forum_id, forum_name FROM forums WHERE forum_guid=?", guid).Scan(&f.ID, &f.Name)
 	if err != nil {
 		fmt.Println(err)
 	}
-	f.Topics, f.PageCount = f.GetTopics()
+	f.Topics, f.PageCount = f.GetTopics(page)
 	for i := 1; i <= f.PageCount; i++ {
 		f.Pages = append(f.Pages, i)
 	}

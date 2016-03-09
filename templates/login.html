@@ -1,13 +1,32 @@
 {{template "header.html" .}}
-		<h1>login</h1>
 
-<form action="/login" method="POST">
-<div class="mdl-grid">
 
-  <input type="text" name="user_name" placeholder="User Name" />
-  <input type="text" name="user_email" placeholder="Email" />
-  <input type="password" name="user_pass" placeholder="Password" />
-  <input type="submit" value="Register" />
+<div class="mdl-grid elysium-grid">
+  <div class="mdl mdl-cell--4-col"></div>
+  <div class="mdl-cell mdl-cell--4-col">
+    <h1>Login</h1>
+    <form action="/login" method="POST">
+    <div class="mdl-grid">
+    {{ .csrfField }}
+
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" pattern="*{3,}" id="user_name" name="user_name">
+        <label class="mdl-textfield__label" for="user_name">User Name</label>
+        <span class="mdl-textfield__error">Must be at least 3 characters</span>
+      </div>
+
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="password" pattern="*{6,128}" id="user_pass" name="user_pass">
+        <label class="mdl-textfield__label" for="user_pass">Password</label>
+        <span class="mdl-textfield__error">Must be 6-12 characters</span>
+      </div>
+
+      <div class="mdl-cell mdl-cell--12-col"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Log In</button></div>
+    </div>
+    </form>
+  </div>
+  <div class="mdl mdl-cell--4-col"></div>
 </div>
-</form>
+
+
 {{template "footer.html" .}}
