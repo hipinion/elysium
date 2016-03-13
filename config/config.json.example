@@ -3,8 +3,8 @@
     "type": "mysql",
     "host": "",
     "port": "3306",
-    "user": "root",
-    "pass": "",
+    "user": "badhat",
+    "pass": "ilovebikes",
     "database":"elysium"
   },
   "dev": {
