@@ -94,7 +94,8 @@ func Serve() {
 	r.HandleFunc("/api/v1/topics/{topic:[0-9a-z-]+}", API_v1_TopicsHandler)
 	r.HandleFunc("/api/v1/forums", API_v1_ForumsHandler)
 	r.HandleFunc("/api/v1/forums/{forum:[0-9a-z-]+}", API_v1_ForumsHandler)
-
+	r.HandleFunc("/api/v1/posts", API_v1_PostsHandler)
+	r.HandleFunc("/api/v1/posts/{post:[0-9a-z-]+}", API_v1_PostsHandler)
 	r.HandleFunc("/api/v1/posts", API_v1_PostsHandler).Methods("POST")
 
 	http.Handle("/", r)
