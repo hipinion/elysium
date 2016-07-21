@@ -26,6 +26,7 @@ type Config struct {
 	Dev      ConfigDev      `json:"dev"`
 	Stage    ConfigStage    `json:"stage"`
 	Prod     ConfigProd     `json:"production"`
+	AWS      ConfigAWS      `json:"aws"`
 }
 
 type ConfigDatabase struct {
@@ -35,6 +36,13 @@ type ConfigDatabase struct {
 	User     string `json:"user"`
 	Pass     string `json:"pass"`
 	Database string `json:"database"`
+}
+
+type ConfigAWS struct {
+	From string `json:"from"`
+	Host string `json:"host"`
+	User string `json:"user"`
+	Pass string `json:"pass"`
 }
 
 type ConfigDev struct {
