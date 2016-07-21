@@ -15,6 +15,10 @@ const (
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
+type Users struct {
+	Users []User `json:"users"`
+}
+
 type User struct {
 	ID       int    `json:"user_id"`
 	Guid     string `json:"user_guid"`
