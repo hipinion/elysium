@@ -1,14 +1,25 @@
 {{template "header.html" .}}
-
+<style>
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('https://getmdl.io/assets/demos/welcome_card.jpg') center / cover;
+}
+</style>
 
 <div class="mdl-grid elysium-grid">
-  <div class="mdl mdl-cell--4-col"></div>
-  <div class="mdl-cell mdl-cell--4-col">
-    <h1>Register</h1>
-    <form action="/register" method="POST">
-    <div class="mdl-grid">
-    {{ .csrfField }}
+  <div class="mdl mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col">
 
+
+<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width:100%;">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Register</h2>
+  </div>
+  <div class="mdl-card__supporting-text">
+    [[signup message]]
+    <form action="/register" method="POST">
+    {{ .csrfField }}
       <div class="mdl-textfield mdl-js-textfield">
         <input class="mdl-textfield__input" type="text" pattern="*{3,}" id="user_name" name="user_name">
         <label class="mdl-textfield__label" for="user_name">User Name</label>
@@ -25,11 +36,25 @@
         <span class="mdl-textfield__error">Must be 6-12 characters</span>
       </div>
 
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Register</button>
-    </div>
+      <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+  <input type="checkbox" id="switch-1" class="mdl-switch__input">
+  <span class="mdl-switch__label">I accept the <a href="/terms">terms and conditions</a></span>
+</label>
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored elysium-button--register" id="register_submit">Register</button>
     </form>
   </div>
-  <div class="mdl mdl-cell--4-col"></div>
+  <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">share</i>
+    </button>
+  </div>
+</div>
+
+
+  </div>
+  <div class="mdl mdl-cell--3-col"></div>
 </div>
 
 {{template "footer.html" .}}

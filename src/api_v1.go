@@ -48,12 +48,12 @@ func API_v1_UsersHandler(w http.ResponseWriter, r *http.Request) {
 		whereString = " WHERE " + whereString
 	}
 
-	users, err := DB.Query("SELECT u.user_name, u.user_id FROM users u "+whereString+" LIMIT 25", whereVals...)
+	users, err := DB.Query("SELECT u.user_name, u.user_id, u.user_email FROM users u "+whereString+" LIMIT 25", whereVals...)
 
 	for users.Next() {
 
 		var u User
-		err = users.Scan(&u.Name, &u.ID)
+		err = users.Scan(&u.Name, &u.ID, &u.Email)
 
 		if err != nil {
 		}

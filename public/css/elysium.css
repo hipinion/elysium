@@ -1,3 +1,15 @@
+/*  MDL Overrides */
+.mdl-button {
+  border-radius: 1px;
+}
+
 .elysium-textfield__error {
   color: #f00;
+}
+
+/*  Buttons */
+.mdl-button--raised.mdl-button--colored.elysium-button--register {
+  background-color: #26A69A;
+  color: #fff;
+  font-weight: bold;
 }

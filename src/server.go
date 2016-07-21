@@ -77,6 +77,10 @@ func RegisterProcess(w http.ResponseWriter, r *http.Request) {
 
 func Serve() {
 	r := mux.NewRouter()
+
+	local := http.StripPrefix("/public/", http.FileServer(http.Dir("./public/")))
+	r.PathPrefix("/public").Handler(local)
+
 	r.HandleFunc("/", HomeHandler)
 	r.HandleFunc("/login", LoginHandler).Methods("GET")
 	r.HandleFunc("/login", LoginProcess).Methods("POST")
