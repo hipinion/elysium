@@ -1,4 +1,4 @@
 # elysium
 ...
 
-![alt text](public/img/register.png "Site Registration")
+![Site registration](public/screenshots/register.png "Site Registration")
