@@ -23,11 +23,11 @@ type User struct {
 	Password string `json:"user_password"`
 }
 
-func (u User) authenticate() bool {
+func (u *User) authenticate() bool {
 	_, salt := getSalt(u.Name)
 	pass := hash(u.Password + salt)
 	var count int
-	err := DB.QueryRow("SELECT count(*) FROM users WHERE user_name=? AND user_password=? AND user_salt=?", u.Name, pass, salt).Scan(&count)
+	err := DB.QueryRow("SELECT count(*), user_id FROM users WHERE user_name=? AND user_password=? AND user_salt=?", u.Name, pass, salt).Scan(&count, &u.ID)
 	if err != nil {
 		log.Println(err)
 	}
