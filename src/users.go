@@ -1,12 +1,9 @@
 package elysium
 
 import (
-	_ "crypto/rand"
-	"crypto/sha256"
-	"encoding/base64"
+	"fmt"
 	_ "io"
 	"log"
-	"math/rand"
 )
 
 const (
@@ -27,45 +24,30 @@ type User struct {
 	Password string `json:"user_password"`
 }
 
-func hash(s string) string {
-	h := sha256.New()
-	h.Write([]byte(s))
-	sha := h.Sum(nil)
-	encoded := base64.StdEncoding.EncodeToString([]byte(sha))
-	return string(encoded)
-}
-
-func generateSalt() string {
-	b := make([]rune, PW_SALT_LENGTH)
-	for i := range b {
-		b[i] = letterRunes[rand.Intn(len(letterRunes))]
-	}
-	return string(b)
-}
-
-func getSalt(un string) (bool, string) {
-	var salt string
-	err := DB.QueryRow("SELECT user_salt FROM users WHERE user_name=?", un).Scan(&salt)
-	if err != nil {
-		return false, ""
-	} else {
-		return true, salt
-	}
-}
-
-func (u User) authenticate() bool {
+func (u *User) authenticate() bool {
 	_, salt := getSalt(u.Name)
 	pass := hash(u.Password + salt)
 	var count int
-	err := DB.QueryRow("SELECT count(*) FROM users WHERE user_name=? AND user_password=? AND user_salt=?", u.Name, pass, salt).Scan(&count)
+	err := DB.QueryRow("SELECT count(*), user_id FROM users WHERE user_name=? AND user_password=? AND user_salt=?", u.Name, pass, salt).Scan(&count, &u.ID)
 	if err != nil {
-		log.Println(err)
+		log.Println("uh", err)
 	}
 	if count == 1 {
 		return true
 	} else {
 		return false
 	}
+}
+
+func GetUser(guid string) User {
+	u := User{}
+	fmt.Println(guid)
+	err := DB.QueryRow("SELECT u.user_name, u.user_id FROM users u WHERE u.user_name=?", guid).Scan(&u.Name, &u.ID)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return u
 }
 
 func (u User) create() bool {

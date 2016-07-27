@@ -1,13 +1,32 @@
 {{template "header.html" .}}
-
+<style>
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('/public/img/bg.png') center / cover;
+}
+</style>
+<script>
+$('.elysium-header').remove();
+</script>
 
 <div class="mdl-grid elysium-grid">
-  <div class="mdl mdl-cell--4-col"></div>
-  <div class="mdl-cell mdl-cell--4-col">
-    <h1>Login</h1>
-    <form action="/login" method="POST">
-    <div class="mdl-grid">
+  <div class="mdl mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col">
+
+
+
+
+   <form action="/login" method="POST">
     {{ .csrfField }}
+<div class="demo-card-wide mdl-card mdl-shadow--2dp elysium-full-card" >
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Login :: Elysium</h2>
+  </div>
+  <div class="mdl-card__supporting-text">
+
+
+    <div class="elysium-message elysium-message-error" id="reg_message"></div>
 
       <div class="mdl-textfield mdl-js-textfield">
         <input class="mdl-textfield__input" type="text" pattern="*{3,}" id="user_name" name="user_name">
@@ -21,11 +40,29 @@
         <span class="mdl-textfield__error">Must be 6-12 characters</span>
       </div>
 
-      <div class="mdl-cell mdl-cell--12-col"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Log In</button></div>
-    </div>
-    </form>
+
+
   </div>
-  <div class="mdl mdl-cell--4-col"></div>
+  <div class="mdl-card__actions mdl-card--border">
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored elysium-button--register" id="register_submit">Login</button> or <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored elysium-button--register" id="register_submit">Register</button>
+  </div>
+  <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">share</i>
+    </button>
+  </div>
+</div>
+    </form>
+
+
+
+
+
+
+
+
+  </div>
+  <div class="mdl mdl-cell--3-col"></div>
 </div>
 
 

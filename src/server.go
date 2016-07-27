@@ -2,11 +2,13 @@ package elysium
 
 import (
 	"fmt"
-	"github.com/gorilla/csrf"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
+	"time"
+
+	"github.com/gorilla/csrf"
+	"github.com/gorilla/mux"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,7 +37,9 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UserHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+	v := mux.Vars(r)
+	u := GetUser(v["user"])
+	Templates.ExecuteTemplate(w, "user.html", u)
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -51,9 +55,15 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 	u := User{Name: userName, Password: pass}
 	authenticated := u.authenticate()
 	if authenticated {
-		fmt.Fprintln(w, "Correctly authenticated")
+		fmt.Println(u)
+		sess := CreateSession()
+		expire := time.Now().AddDate(0, 0, 1)
+		cookie := http.Cookie{"elysium_sid", sess, "/", "", expire, expire.Format(time.UnixDate), 86400, true, true, "elysium_sid=" + sess, []string{"elysium_sid=" + sess}}
+		http.SetCookie(w, &cookie)
+		SaveSession(sess, u)
+		Templates.ExecuteTemplate(w, "login_success.html", nil)
 	} else {
-		fmt.Fprintln(w, "Error logging in")
+		Templates.ExecuteTemplate(w, "login_error.html", nil)
 	}
 }
 
@@ -82,6 +92,7 @@ func Serve() {
 	r.PathPrefix("/public").Handler(local)
 
 	r.HandleFunc("/", HomeHandler)
+
 	r.HandleFunc("/login", LoginHandler).Methods("GET")
 	r.HandleFunc("/login", LoginProcess).Methods("POST")
 	r.HandleFunc("/register", RegisterHandler).Methods("GET")
@@ -89,7 +100,8 @@ func Serve() {
 	r.HandleFunc("/forum/{forum:[0-9a-z-]+}", ForumHandler)
 	r.HandleFunc("/topic/{topic:[0-9a-z-]+}", ThreadHandler)
 	r.HandleFunc("/post/{post:[0-9a-z-]+}", PostHandler)
-	r.HandleFunc("/user/{user:[0-9a-z-]+}", UserHandler)
+	r.HandleFunc("/user/{user:.+}", UserHandler)
+	// r.HandleFunc("/test", TestHandler)
 
 	// API endpoints
 	r.HandleFunc("/api/v1/users", API_v1_UsersHandler)
