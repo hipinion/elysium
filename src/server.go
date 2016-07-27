@@ -37,7 +37,9 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UserHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+	v := mux.Vars(r)
+	u := GetUser(v["user"])
+	Templates.ExecuteTemplate(w, "user.html", u)
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -98,7 +100,8 @@ func Serve() {
 	r.HandleFunc("/forum/{forum:[0-9a-z-]+}", ForumHandler)
 	r.HandleFunc("/topic/{topic:[0-9a-z-]+}", ThreadHandler)
 	r.HandleFunc("/post/{post:[0-9a-z-]+}", PostHandler)
-	r.HandleFunc("/user/{user:[0-9a-z-]+}", UserHandler)
+	r.HandleFunc("/user/{user:.+}", UserHandler)
+	// r.HandleFunc("/test", TestHandler)
 
 	// API endpoints
 	r.HandleFunc("/api/v1/users", API_v1_UsersHandler)

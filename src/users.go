@@ -1,6 +1,7 @@
 package elysium
 
 import (
+	"fmt"
 	_ "io"
 	"log"
 )
@@ -29,13 +30,24 @@ func (u *User) authenticate() bool {
 	var count int
 	err := DB.QueryRow("SELECT count(*), user_id FROM users WHERE user_name=? AND user_password=? AND user_salt=?", u.Name, pass, salt).Scan(&count, &u.ID)
 	if err != nil {
-		log.Println(err)
+		log.Println("uh", err)
 	}
 	if count == 1 {
 		return true
 	} else {
 		return false
 	}
+}
+
+func GetUser(guid string) User {
+	u := User{}
+	fmt.Println(guid)
+	err := DB.QueryRow("SELECT u.user_name, u.user_id FROM users u WHERE u.user_name=?", guid).Scan(&u.Name, &u.ID)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return u
 }
 
 func (u User) create() bool {
