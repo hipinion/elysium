@@ -1,0 +1,14 @@
+{{template "header.html" .}}
+		<h1>users</h1>
+<div class="mdl-grid mdl-grid--no-spacing">
+
+
+    {{ range .Users }}
+      <div class="mdl-cell mdl-cell--8-col">{{.Name}} {{.Email}}</div>
+      <div class="mdl-cell mdl-cell--4-col">{{.ID}}</div>
+    {{ end}}
+
+</div>
+
+
+{{template "footer.html" .}}
