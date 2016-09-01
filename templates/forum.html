@@ -1,16 +1,17 @@
 {{template "header.html" .}}
-		<h1>{{.Name}}</h1>
-<div class="mdl-grid mdl-grid--no-spacing">
 
-    {{ range .Topics }}
-      <div class="mdl-cell mdl-cell--12-col"><a href="/topic/{{.Guid}}">{{.Title}}</a></div>
-    {{ end}}
+{{ with .Payload}}
+	<div class="mdl-grid elysium-grid">
+	<div class="mdl-cell mdl-cell--12-col"><h1 class="elysium-page-title">{{.Name}}</h1></div>
+	    {{ range .Topics }}
+	      <div class="mdl-cell mdl-cell--10-col"><a href="/topic/{{.Guid}}">{{.Title}}</a> //</div>
+	    {{ end}}
 
-    {{ range .Pages}}
-      {{.}}
-    {{ end }} 
+	    {{ range .Pages}}
+	      {{.}}
+	    {{ end }} 
 
-</div>
-
+	</div>
+{{ end }}
 
 {{template "footer.html" .}}

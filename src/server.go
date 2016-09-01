@@ -12,18 +12,20 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "gapearth")
+	Templates.ExecuteTemplate(w, "index.html", nil)
 }
 
 func ForumHandler(w http.ResponseWriter, r *http.Request) {
+	User := GetSession(r)
+	fmt.Println(User)
 	v := mux.Vars(r)
 	page, _ := strconv.ParseInt(r.URL.Query().Get("page"), 10, 32)
 	if page == 0 {
 		page = 1
 	}
 	t := GetForum(v["forum"], page)
-
-	Templates.ExecuteTemplate(w, "forum.html", t)
+	p := Page{User: User, Payload: t}
+	Templates.ExecuteTemplate(w, "forum.html", p)
 }
 
 func ThreadHandler(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +36,12 @@ func ThreadHandler(w http.ResponseWriter, r *http.Request) {
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 
+}
+
+func UsersHandler(w http.ResponseWriter, r *http.Request) {
+	d := r.URL.Query()
+	us := GetUsers(d)
+	Templates.ExecuteTemplate(w, "users.html", us)
 }
 
 func UserHandler(w http.ResponseWriter, r *http.Request) {
@@ -58,7 +66,7 @@ func LoginProcess(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(u)
 		sess := CreateSession()
 		expire := time.Now().AddDate(0, 0, 1)
-		cookie := http.Cookie{"elysium_sid", sess, "/", "", expire, expire.Format(time.UnixDate), 86400, true, true, "elysium_sid=" + sess, []string{"elysium_sid=" + sess}}
+		cookie := http.Cookie{"elysium_sid", sess, "/", "", expire, expire.Format(time.UnixDate), 86400, false, true, "elysium_sid=" + sess, []string{"elysium_sid=" + sess}}
 		http.SetCookie(w, &cookie)
 		SaveSession(sess, u)
 		Templates.ExecuteTemplate(w, "login_success.html", nil)
@@ -81,7 +89,9 @@ func RegisterProcess(w http.ResponseWriter, r *http.Request) {
 	u := User{Name: userName, Email: email, Password: pass}
 	created := u.create()
 	if !created {
-		log.Println("Could not create user")
+		Templates.ExecuteTemplate(w, "register_error.html", u)
+	} else {
+		Templates.ExecuteTemplate(w, "register_success.html", u)
 	}
 }
 
@@ -94,6 +104,7 @@ func Serve() {
 	r.HandleFunc("/", HomeHandler)
 
 	r.HandleFunc("/login", LoginHandler).Methods("GET")
+
 	r.HandleFunc("/login", LoginProcess).Methods("POST")
 	r.HandleFunc("/register", RegisterHandler).Methods("GET")
 	r.HandleFunc("/register", RegisterProcess).Methods("POST")
@@ -101,11 +112,12 @@ func Serve() {
 	r.HandleFunc("/topic/{topic:[0-9a-z-]+}", ThreadHandler)
 	r.HandleFunc("/post/{post:[0-9a-z-]+}", PostHandler)
 	r.HandleFunc("/user/{user:.+}", UserHandler)
+	r.HandleFunc("/users", UsersHandler)
 	// r.HandleFunc("/test", TestHandler)
 
 	// API endpoints
-	r.HandleFunc("/api/v1/users", API_v1_UsersHandler)
-	r.HandleFunc("/api/v1/users/{user:[0-9a-z-]+}", API_v1_UsersHandler)
+	r.HandleFunc("/api/v1/members", API_v1_UsersHandler)
+	r.HandleFunc("/api/v1/member/{user:[0-9a-z-]+}", API_v1_UsersHandler)
 	r.HandleFunc("/api/v1/topics", API_v1_TopicsHandler)
 	r.HandleFunc("/api/v1/topics/{topic:[0-9a-z-]+}", API_v1_TopicsHandler)
 	r.HandleFunc("/api/v1/forums", API_v1_ForumsHandler)
@@ -114,7 +126,7 @@ func Serve() {
 	r.HandleFunc("/api/v1/posts/{post:[0-9a-z-]+}", API_v1_PostsHandler)
 	r.HandleFunc("/api/v1/posts", API_v1_PostsHandler).Methods("POST")
 
-	http.Handle("/", r)
+	http.Handle("/", sessionMiddleware(r))
 	http.ListenAndServe(":8083", csrf.Protect([]byte("32-byte-long-auth-key"), csrf.Secure(false))(r))
 
 }

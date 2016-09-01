@@ -3,6 +3,10 @@
   border-radius: 1px;
 }
 
+a {
+	text-decoration: none;
+}
+
 .elysium-textfield__error {
   color: #f00;
 }
@@ -16,4 +20,14 @@
 
 .elysium-full-card, .elysium-full-card .mdl-textfield  {
   width: 100%;
+}
+
+.elysium-page-title {
+	font-size: 26px;
+	font-weight: bold;
+} 
+
+.elysium-grid .mdl-cell {
+	font-size: 18px;
+	border-bottom: 1px solid #eee;
 }

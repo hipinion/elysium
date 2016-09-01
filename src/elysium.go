@@ -15,10 +15,6 @@ const (
 type xOrganization struct {
 }
 
-type Page struct {
-	Content interface{}
-}
-
 type Config struct {
 	Name     string         `json:"name"`
 	File     string         `json:"filename"`
@@ -86,7 +82,7 @@ func loadConfiguration(filename string) {
 }
 
 func getConnectString() string {
-	cs := Configuration.Database.User + ":" + Configuration.Database.Pass + "@" + Configuration.Database.Host + "/" + Configuration.Database.Database
+	cs := Configuration.Database.User + ":" + Configuration.Database.Pass + "@" + Configuration.Database.Host + "/" + Configuration.Database.Database + "?charset=utf8mb4"
 	return cs
 }
 

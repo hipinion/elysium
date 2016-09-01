@@ -4,6 +4,7 @@ import (
 	"fmt"
 	_ "io"
 	"log"
+	"net/url"
 )
 
 const (
@@ -22,6 +23,7 @@ type User struct {
 	Name     string `json:"user_name"`
 	Email    string `json:"user_email"`
 	Password string `json:"user_password"`
+	LoggedIn bool   `json:"logged_in"`
 }
 
 func (u *User) authenticate() bool {
@@ -48,6 +50,35 @@ func GetUser(guid string) User {
 	}
 
 	return u
+}
+
+func GetUsers(opts url.Values) *Users {
+	us := new(Users)
+	q := NewQueryData()
+	q.Generate(opts)
+
+	var wheres []string
+	var whereVals []interface{}
+
+	whereVals = append(whereVals, q.limit)
+	whereVals = append(whereVals, q.offset)
+	whereString := compileWheres(wheres)
+
+	rows, err := DB.Query("SELECT SQL_CALC_FOUND_ROWS u.user_id, u.user_name, u.user_email FROM users u  "+whereString+" LIMIT ? OFFSET ?", whereVals...)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for rows.Next() {
+		var u User
+		err = rows.Scan(&u.ID, &u.Name, &u.Email)
+		if err != nil {
+		}
+
+		us.Users = append(us.Users, u)
+	}
+
+	return us
 }
 
 func (u User) create() bool {
