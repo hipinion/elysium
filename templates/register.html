@@ -1,4 +1,5 @@
 {{template "header.html" .}}
+
 <style>
 .demo-card-wide > .mdl-card__title {
   color: #fff;
@@ -45,14 +46,20 @@ $('.elysium-header').remove();
         <label class="mdl-textfield__label" for="user_pass">Password (repeat)</label>
         <span class="mdl-textfield__error">Must be 6-12 characters</span>
       </div>
+      <div class="mdl-textfield mdl-js-textfield">
+          
+      </div>
 
       <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
   <input type="checkbox" id="switch-1" class="mdl-switch__input">
   <span class="mdl-switch__label">I accept the <a href="/terms">terms and conditions</a></span>
 </label>
+
+
   </div>
   <div class="mdl-card__actions mdl-card--border">
     <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored elysium-button--register" id="register_submit">Register</button>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     </form>
   </div>
   <div class="mdl-card__menu">

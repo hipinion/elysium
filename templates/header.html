@@ -1,5 +1,3 @@
-
-
 <html>
 <head>
 <meta charset="UTF-8">
@@ -9,6 +7,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,700,900' rel='stylesheet' type='text/css'>
   <script src="/public/js/elysium.js"></script>
+
   <link rel="stylesheet" href="/public/css/elysium.css">
   <style>
   .post {
@@ -25,6 +24,7 @@
     padding: 10px;
   }
   </style>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
       <div class="elysium-header mdl-layout__header mdl-layout__header--waterfall" style="background-color:#00608f;color:#fff;">
         <div class="mdl-layout__header-row">
           <span class="elysium-title mdl-layout-title">
-            elysium
+            elysium :: {{ with .User}} {{ if .LoggedIn }}{{.Name}} {{else}} <a href="/login">login</a> {{ end }} {{end}}
           </span>
           
           <div class="elysium-header-spacer mdl-layout-spacer"></div>
@@ -48,9 +48,9 @@
           </div>
 
           <span class="elysium-mobile-title mdl-layout-title">
-            [img]
+
           </span>
-          <button class="elysium-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+          <button class="elysium-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button" style="display:none;">
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
@@ -60,16 +60,16 @@
         </div>
       </div>
 
-      <div class="android-drawer mdl-layout__drawer">
+      <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">
           [logo]
         </span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Stuff</a>
+          <a class="mdl-navigation__link" href="/members">Members</a>
 
         </nav>
       </div>
 
-      <div class="android-content mdl-layout__content">
+      <div class="mdl-layout__content">
         <a name="top"></a>
 
