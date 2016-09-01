@@ -23,6 +23,7 @@ type User struct {
 	Name     string `json:"user_name"`
 	Email    string `json:"user_email"`
 	Password string `json:"user_password"`
+	LoggedIn bool   `json:"logged_in"`
 }
 
 func (u *User) authenticate() bool {
